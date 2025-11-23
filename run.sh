@@ -7,10 +7,10 @@ QEMU=qemu-system-riscv32
 # clangのパス
 CC=clang
 
-CFLAGS="-std=c11 -O2 -g3 -Wall -Wextra --target=riscv32-unknown-elf -fuse-ld=lld -fno-stack-protector -ffreestanding -nostdlib
+CFLAGS="-std=c11 -O2 -g3 -Wall -Wextra --target=riscv32-unknown-elf -fuse-ld=lld -fno-stack-protector -ffreestanding -nostdlib"
 
 # カーネルをビルド
-$CC $CFLAGS -Wal, -Tkernel.ld -Wl, -Map=kernel.map -o kernel.elf \
+$CC $CFLAGS -Wl,-Tkernel.ld -Wl,-Map=kernel.map -o kernel.elf \
     kernel.c
 
 # QEMUを起動
