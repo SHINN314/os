@@ -15,7 +15,7 @@ struct sbiret sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4, lo
     __asm__ __volatile__("ecall"
                          : "=r" (a0), "=r" (a1)
                          : "r"(a0), "r"(a1), "r"(a2), "r"(a3), "r"(a4), "r"(a5), "r"(a6), "r"(a7)
-                            : "memory");
+                         : "memory");
     return (struct sbiret){.error = a0, .value=a1};
 }
 
