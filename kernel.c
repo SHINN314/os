@@ -26,6 +26,7 @@ void putchar(char ch) {
 }
 
 void kernel_main(void) {
+    // Hello World!を出力する
     const char *s = "\n\nHello World!\n";
     for (int i = 0; s[i] != '\0'; i++) {
         putchar(s[i]);
