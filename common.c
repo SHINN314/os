@@ -14,7 +14,7 @@ void printf(const char *fmt, ...) {
                     putchar('%');
                     goto end;
                 case '%':
-                    putcha('%');
+                    putchar('%');
                     break;
                 case 's': {
                     const char *s = va_arg(vargs, const char *);
