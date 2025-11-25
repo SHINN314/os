@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "common.h"
 
 extern char __bss[], __bss_end[], __stack_top[];
 
@@ -27,7 +28,8 @@ void putchar(char ch) {
 
 void kernel_main(void) {
     // Hello World!を出力する
-    const char *s = "\n\nHello World!\n";
+    printf("\n\nHello %s\n", "World!");
+    printf("1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd);
     for (int i = 0; s[i] != '\0'; i++) {
         putchar(s[i]);
     }
