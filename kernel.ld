@@ -1,5 +1,5 @@
 /* エントリポイント(プログラムの開始地点)の指定。 */
-ENTRY(kernel_main)
+ENTRY(boot)
 
 SECTIONS {
     /* ベースアドレスの設定。 */

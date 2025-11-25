@@ -1,7 +1,18 @@
 #include "kernel.h"
 #include "common.h"
 
+typedef unsigned char uint8_t;
+typedef unsigned int uint32_t;
+typedef uint32_t size_t;
+
 extern char __bss[], __bss_end[], __stack_top[];
+
+void *memset(void *buf, char c, size_t n) {
+    uint8_t *p = (uint8_t *) buf;
+    while (n--) 
+        *p++ = c;
+    return buf;
+}
 
 struct sbiret sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4,
                        long arg5, long fid, long eid) {
@@ -27,14 +38,39 @@ void putchar(char ch) {
 }
 
 void kernel_main(void) {
+    // memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
+
     // Hello World!を出力する
     printf("\n\nHello %s\n", "World!");
     printf("1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd);
-    for (int i = 0; s[i] != '\0'; i++) {
-        putchar(s[i]);
-    }
 
     for (;;) {
         __asm__ __volatile__("wfi");
     }
+}
+
+__attribute__((section(".text.boot")))
+__attribute__((naked))
+void boot(void) {
+    __asm__ __volatile__(
+        "la sp, __stack_top\n" // スタックポインタを初期化
+
+        // BSSセクションをゼロクリア
+        "la t0, __bss\n"
+        "la t1, __bss_end\n"
+        "1:\n"
+        "bgeu t0, t1, 2f\n"
+        "sw zero, 0(t0)\n"
+        "addi t0, t0, 4\n"
+        "j 1b\n"
+        "2:\n"  
+
+        // カーネルのエントリポイントを呼び出す
+        "call kernel_main\n"
+
+        // カーネルから戻ってきたら無限ループ
+        "3:\n"
+        "wfi\n"
+        "j 3b\n"
+    );
 }
