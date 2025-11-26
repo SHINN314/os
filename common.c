@@ -97,7 +97,8 @@ char *strcpy(char *dst, const char *src) {
 }
 
 int strcmp(const char *s1, const char *s2) {
-    whilie (*s1 && *s2) {
+    /* 文字列s1とs2を比較する関数 */
+    while (*s1 && *s2) {
         if (*s1 != *s2)
             break;
         s1++;
